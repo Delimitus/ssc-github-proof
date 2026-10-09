@@ -1,0 +1,18 @@
+name: ssc-deploy
+on:
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - id: ssc
+        uses: mihirp381/delimitus.cloud/.github/actions/ssc-deploy@153b379d82e2f91508abbc68e7e60be6ed3d33db
+        with:
+          token: ${{ secrets.SSC_PREVIEW_TOKEN }}
+          app: ghproof
+      - run: echo "preview-url=${{ steps.ssc.outputs.preview-url }}"
